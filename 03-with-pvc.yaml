@@ -1,0 +1,45 @@
+---
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseInstallation
+metadata:
+  name: single
+  namespace: clickhouse
+spec:
+  defaults:
+    templates:
+      podTemplate: clickhouse:24.1
+      dataVolumeClaimTemplate: data-volume-template
+      logVolumeClaimTemplate: log-volume-template
+
+  configuration:
+    clusters:
+      - name: clickhouse
+
+    users:
+      duyet/password_sha256_hex: ea3e0ba4c196be92523629d14b345d054588f5df9cfb338369e6a15a3b562fa9
+      duyet/networks/ip:
+        - 0.0.0.0/0
+
+  templates:
+    podTemplates:
+      - name: clickhouse:24.1
+        spec:
+          containers:
+            - name: clickhouse
+              image: clickhouse/clickhouse-server:24.1
+
+    volumeClaimTemplates:
+      - name: data-volume-template
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Gi
+      - name: log-volume-template
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Mi

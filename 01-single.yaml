@@ -1,0 +1,17 @@
+---
+apiVersion: clickhouse.altinity.com/v1
+kind: ClickHouseInstallation
+metadata:
+  name: single
+  namespace: clickhouse
+spec:
+  configuration:
+    clusters:
+      - name: clickhouse
+    users:
+      # printf 'duyet-password' | sha256sum
+      duyet/password_sha256_hex: ea3e0ba4c196be92523629d14b345d054588f5df9cfb338369e6a15a3b562fa9
+      # or plaintext
+      duyet/password: 'duyet-password'
+      duyet/networks/ip:
+        - 0.0.0.0/0
